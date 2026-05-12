@@ -26,7 +26,7 @@ class LocalCSV(DataSource):
         }
 
 class LocalFITS(DataSource):
-
+    # Class to load lightcurve FITS files downloaded from MAST
     def __init__(self, path):
         self.path = path
 
