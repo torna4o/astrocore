@@ -22,3 +22,28 @@ class LocalCSV(DataSource):
                 "path": self.path
             }
         }
+
+class LocalFITS(DataSource):
+
+    def __init__(self, path):
+        self.path = path
+
+    def load(self):
+
+        with fits.open(self.path) as hdul:
+
+            table = hdul[1].data
+
+            t = table["TIME"]
+            y = table["PDCSAP_FLUX"]
+
+        mask = np.isfinite(t) & np.isfinite(y)
+
+        return {
+            "t": t[mask],
+            "y": y[mask],
+            "meta": {
+                "source": "local_fits",
+                "path": self.path
+            }
+        }
