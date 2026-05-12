@@ -1,5 +1,7 @@
 from .base import DataSource
+
 import numpy as np
+from astropy.io import fits
 
 
 class LocalCSV(DataSource):
