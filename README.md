@@ -1,6 +1,6 @@
 # astrocore
 
-A modular framework for **time-series data ingestion, preprocessing, and model orchestration**.
+A modular framework for **astrophysics time-series data ingestion, preprocessing, and model orchestration**.
 
 The goal is to build a reproducible system that:
 - ingests heterogeneous data sources
