@@ -18,6 +18,7 @@ astrocore/
 │       ├── __init__.py
 │       ├── base.py
 │       ├── local.py
+│       ├── registry.py
 │       └── remote.py
 ├── tests/
 │   └── ...
