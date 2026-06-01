@@ -13,6 +13,7 @@ pipeline-level orchestration inside astrocore.
 """
 
 from .base import DataSource
+from .registry import Registry
 
 from astroquery.mast import Observations
 from astropy.coordinates import SkyCoord
@@ -209,7 +210,7 @@ class MastTESSDownload(DataSource):
     Download interface for TESS products from MAST.
     """
 
-    def __init__(self, download_dir="downloads"):
+    def __init__(self, download_dir="downloads", registry = None):
         """
         Parameters
         ----------
@@ -219,8 +220,9 @@ class MastTESSDownload(DataSource):
             directory is used by default.
         """
         self.download_dir = download_dir
+        self.registry = registry
 
-    def download(self, products):
+    def download(self, query_result, category="uncategorized"):
         """
         Download selected MAST products.
 
@@ -234,17 +236,56 @@ class MastTESSDownload(DataSource):
         dict
             Dictionary containing:
             - manifest : download manifest table
+            - paths : path list of the downloaded products
             - meta : download metadata
         """
-
+        
+        products = query_result["products"]
         manifest = Observations.download_products(
             products,
             download_dir=self.download_dir
         )
+        
+        paths = [
+            str(path)
+            for path in manifest["Local Path"]
+        ]
+
+        if self.registry is not None:
+
+            for path in paths:
+
+                self.registry.register_product(
+
+                    target_name=query_result["meta"].get(
+                        "target_name",
+                        "unknown"
+                    ),
+
+                    ra=query_result["meta"].get(
+                        "ra",
+                        None
+                    ),
+
+                    dec=query_result["meta"].get(
+                        "dec",
+                        None
+                    ),
+                    
+                    mission="TESS",
+                    category=category,
+                    product_type="LC",
+                    sector=None,
+                    filepath=path,
+                    source="MAST"
+                )
 
         return {
+
             "manifest": manifest,
+            "paths": paths,
             "meta": {
-                "download_dir": self.download_dir
+                "download_dir": self.download_dir,
+                "n_files": len(paths)
             }
         }
