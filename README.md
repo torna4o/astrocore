@@ -14,6 +14,7 @@ astrocore/
 │   ├── __init__.py
 │   ├── module.py
 │   ├── pipeline.py
+|   ├── segmentation.py
 │   └── io/
 │       ├── __init__.py
 │       ├── base.py
