@@ -1,3 +1,5 @@
+# Script to run the codes below to check the libraries and methods on a chosen data.
+
 import matplotlib.pyplot as plt
 import numpy as np
 
