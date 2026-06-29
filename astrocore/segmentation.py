@@ -13,7 +13,7 @@ class TimeSeriesSegmentation:
 
             cadence_gap_tolerance * median_cadence
 
-        Default is 5.
+        Default is 1 (no gap tolerance).
     """
 
     def __init__(self, cadence_gap_tolerance=1.0):
